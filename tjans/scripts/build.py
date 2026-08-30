@@ -241,6 +241,7 @@ def build_ics(titel, entries, stamp):
               fold(f"SUMMARY:{esc(e['summary'])}"),
               fold(f"DESCRIPTION:{esc(e['description'])}"),
               fold(f"LOCATION:{esc(e['location'])}"),
+              "CATEGORIES:Tjans",
               f"SEQUENCE:{e['seq']}", "STATUS:CONFIRMED", "TRANSP:OPAQUE",
               "END:VEVENT"]
     L.append("END:VCALENDAR")
@@ -252,7 +253,7 @@ def main():
     rows = load_tjanser()
     kampe, feed_fejl, raa = load_feeds()
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    buckets, rapport = {}, []
+    buckets, rapport, forventede = {}, [], []
 
     for row in rows:
         staevne = not row["kampnr"]
@@ -281,7 +282,10 @@ def main():
         flyttet = bool(kamp) and match_start != row["ark_start"]
 
         klub = row["klubhold"] or row["raekke"]
-        summary = f"Tjans: {klub} mod {ude}" if ude else f"Tjans: {row['raekke']}"
+        # antallet står også i titlen, så det er synligt selv hvis en
+        # kalender-import ikke tager kommentarfeltet med
+        summary = (f"Tjans ({antal} pers.): {klub} mod {ude}" if ude
+                   else f"Tjans ({antal} pers.): {row['raekke']}")
         desc = (f"{ROLES.get(antal, ROLES[4])}\n\n"
                 f"Kampstart kl. {match_start.astimezone(DK).strftime('%H:%M')} "
                 f"– mød {lead} minutter før.\n"
@@ -301,6 +305,10 @@ def main():
             "description": desc, "location": sted,
             "seq": int(match_start.timestamp()) % 100000,
         })
+        forventede.append({"tjans": row["tjans"], "kampnr": row["kampnr"],
+                           "navn": summary, "start": start.isoformat(),
+                           "antal": antal,
+                           "kamp": f"{row['hjemmehold'] or klub} - {ude}"})
         rapport.append({**snapshot(row), "status": "ok", "kilde": kilde,
                         "start": start.astimezone(DK).isoformat(),
                         "kampstart": match_start.astimezone(DK).isoformat(),
@@ -324,8 +332,13 @@ def main():
                       "foerste": entries[0]["start"].astimezone(DK).strftime("%d-%m-%Y"),
                       "sidste": entries[-1]["start"].astimezone(DK).strftime("%d-%m-%Y")})
 
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import holdsport
+    hs = holdsport.koer(forventede, ROOT)
+
     huller, forsvundne = find_huller(rows, kampe)
     status = {
+        "holdsport": hs,
         "tjanskilde": getattr(load_tjanser, "kilde", "data/tjanser.csv"),
         "opdateret": datetime.now(UTC).astimezone(DK).strftime("%d-%m-%Y %H:%M"),
         "feed_fejl": feed_fejl,
@@ -340,7 +353,6 @@ def main():
     json.dump(status, open(os.path.join(ROOT, "docs", "status.json"), "w",
                            encoding="utf-8"), ensure_ascii=False, indent=2)
 
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from render import render
     open(os.path.join(ROOT, "docs", "index.html"), "w", encoding="utf-8").write(
         render(status, os.environ.get("BASE_URL", "")))
@@ -348,6 +360,16 @@ def main():
     print(f"{len(feeds)} feeds, {sum(f['kampe'] for f in feeds)} tjanser")
     print(f"{len(kampe)} kampe fra feeds ({raa} rå events)")
     print(f"huller: {len(huller)} | forsvundne: {len(forsvundne)} | flyttede: {len(status['flyttede'])}")
+    if hs["aktiveret"]:
+        if hs["fejl"]:
+            print(f"Holdsport-tjek: {hs['fejl']}", file=sys.stderr)
+        else:
+            print(f"Holdsport-tjek: {hs['fundet']}/{hs['kontrolleret']} tjanser fundet"
+                  f" | mangler: {len(hs['mangler'])}")
+        print("Dine hold i Holdsport: " + ", ".join(
+            f"{h['navn']} (id {h['id']})" for h in hs["alle_hold"]) or "ingen")
+    else:
+        print("Holdsport-tjek: slået fra (ingen HOLDSPORT_USER/HOLDSPORT_PASSWORD)")
     for n, e in feed_fejl.items():
         print(f"  FEED-FEJL {n}: {e}", file=sys.stderr)
     return status

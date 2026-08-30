@@ -4,7 +4,7 @@ i tjansedækningen. GitHub sender selv mail, når issuet oprettes eller ændres,
 så der kommer kun besked, når noget faktisk mangler."""
 import json, os, subprocess, sys
 
-TITEL = "Tjanser: hjemmekampe uden hold"
+TITEL = "Tjanser: noget mangler"
 LABEL = "tjans"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -16,6 +16,8 @@ def gh(*args, **kw):
 def main():
     st = json.load(open(os.path.join(ROOT, "docs", "status.json"), encoding="utf-8"))
     huller, forsvundne = st["huller"], st["forsvundne"]
+    hs = st.get("holdsport") or {}
+    slettet = hs.get("mangler", [])
     side = os.environ.get("SIDE", "")
 
     gh("label", "create", LABEL, "--color", "B60205",
@@ -25,11 +27,12 @@ def main():
                 "--json", "number,body", "--limit", "1")
     aabne = json.loads(fundet.stdout or "[]")
 
-    if not huller and not forsvundne:
+    if not huller and not forsvundne and not slettet:
         if aabne:
             nr = str(aabne[0]["number"])
             gh("issue", "comment", nr, "--body",
-               "Alle hjemmekampe har igen et hold på tjans. Lukker automatisk.")
+               "Alt er i orden igen: hver hjemmekamp har et hold på tjans, "
+               "og alle tjanser ligger i Holdsport. Lukker automatisk.")
             gh("issue", "close", nr)
             print("Ingen huller – issue lukket")
         else:
@@ -49,7 +52,15 @@ def main():
         linjer += [f"| {f['kampnr']} | {f['dato']} | {f['kamp']} | {f['tjans']} |"
                    for f in forsvundne]
         linjer.append("")
-    linjer.append("Ret tjanselisten, så lukker issuet sig selv ved næste kørsel.")
+    if slettet:
+        linjer += [f"## {len(slettet)} tjans(er) er slettet i Holdsport", "",
+                   "| Kampnr. | Mødetid | Aktivitet | Tjans | Hold i Holdsport |",
+                   "|---|---|---|---|---|"]
+        linjer += [f"| {m['kampnr']} | {m['start']} | {m['navn']} | {m['tjans']} "
+                   f"| {m['holdsport']} |" for m in slettet]
+        linjer.append("")
+    linjer.append("Ret tjanselisten eller genopret aktiviteten i Holdsport, "
+                  "så lukker issuet sig selv ved næste kørsel.")
     if side:
         linjer.append(f"\nHele overblikket: {side}")
     krop = "\n".join(linjer)

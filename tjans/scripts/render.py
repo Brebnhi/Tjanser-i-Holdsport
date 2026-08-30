@@ -50,20 +50,29 @@ footer{margin-top:40px;color:var(--muted);font-size:12.5px;border-top:1px solid 
 
 def render(status, base_url=""):
     huller, forsv, flyt = status["huller"], status["forsvundne"], status["flyttede"]
+    hs = status.get("holdsport") or {"aktiveret": False, "mangler": [], "hold": [],
+                                     "alle_hold": [], "fejl": None,
+                                     "kontrolleret": 0, "fundet": 0}
+    slettet = hs.get("mangler", [])
     tj = [t for t in status["tjanser"] if t["status"] == "ok"]
     pr_hold = Counter(t["tjans"] for t in status["tjanser"])
-    problemer = len(huller) + len(forsv)
+    problemer = len(huller) + len(forsv) + len(slettet)
 
     if problemer == 0:
         banner = ('<div class="banner ok"><strong>Alle hjemmekampe er dækket</strong>'
                   f'Alle {status["feed_kampe"]} kampe i kampprogrammet er tjekket mod '
-                  'tjanselisten — hver hjemmekamp har et hold på tjans.</div>')
+                  'tjanselisten — hver hjemmekamp har et hold på tjans'
+                  + (f', og alle {hs["fundet"]} tjanser ligger i Holdsport.'
+                     if hs.get("aktiveret") and not hs.get("fejl") else '.')
+                  + '</div>')
     else:
         bits = []
         if huller:
             bits.append(f"{len(huller)} hjemmekamp{'e' if len(huller)>1 else ''} uden hold på tjans")
         if forsv:
             bits.append(f"{len(forsv)} tjans{'er' if len(forsv)>1 else ''} hvor kampen ikke længere findes")
+        if slettet:
+            bits.append(f"{len(slettet)} tjans{'er' if len(slettet)>1 else ''} slettet i Holdsport")
         banner = (f'<div class="banner bad"><strong>{problemer} ting kræver handling</strong>'
                   + " og ".join(bits) + ".</div>")
 
@@ -118,6 +127,46 @@ def render(status, base_url=""):
         f'<div class="stat"><b>{v}</b><span>tjanser til {E(k)}</span></div>'
         for k, v in sorted(pr_hold.items()))
 
+    if not hs.get("aktiveret"):
+        holdsport_afsnit = (
+            '<h2>Kontrol mod Holdsport</h2>'
+            '<p class="muted">Ikke slået til. Læg <code>HOLDSPORT_USER</code> og '
+            '<code>HOLDSPORT_PASSWORD</code> ind som hemmeligheder i repoet, '
+            'så kontrollerer robotten hver nat, at alle tjanser stadig ligger '
+            'i Holdsport.</p>')
+    elif hs.get("fejl"):
+        holdsport_afsnit = ('<h2>Kontrol mod Holdsport</h2>'
+                            f'<div class="banner bad"><strong>Kunne ikke tjekke Holdsport</strong>'
+                            f'{E(hs["fejl"])}</div>')
+    else:
+        sl_rows = [f"<tr><td><code>{E(m['kampnr'])}</code></td><td>{E(m['start'])}</td>"
+                   f"<td>{E(m['navn'])}</td>"
+                   f"<td><span class='tag'>{E(m['tjans'])}</span></td>"
+                   f"<td class='muted'>{E(m['holdsport'])}</td></tr>" for m in slettet]
+        hold_rows = []
+        for h in hs.get("hold", []):
+            status_tekst = (f"{h['fundet']} af {h['forventet']}"
+                            if not h.get("fejl") else E(h["fejl"]))
+            hold_rows.append(
+                f"<tr><td><span class='tag'>{E(h['kode'])}</span></td>"
+                f"<td>{E(h.get('holdsport') or '—')}</td>"
+                f"<td class='muted'>{E(h.get('id') or '')}</td>"
+                f"<td>{status_tekst}</td>"
+                f"<td class='muted'>{E(h.get('match',''))}</td></tr>")
+        alle = ", ".join(f"{E(h['navn'])} (id {E(h['id'])})" for h in hs.get("alle_hold", []))
+        holdsport_afsnit = (
+            "<h2>Kontrol mod Holdsport</h2>"
+            f"<p class='sub'>{hs['fundet']} af {hs['kontrolleret']} tjanser fundet i "
+            "Holdsport ved sidste kørsel. Mangler en, er den blevet slettet.</p>"
+            + tabel(sl_rows, ["Kampnr.", "Mødetid", "Aktivitet", "Tjans", "Hold i Holdsport"],
+                    "Ingen tjanser er blevet slettet — alle ligger som de skal.")
+            + "<h2>Holdopslag</h2>"
+            + "<p class='sub'>Sådan er holdene fra tjanselisten koblet til dine hold i "
+              "Holdsport. Passer et opslag ikke, så ret navnet eller nummeret i "
+              "<code>data/holdsport_hold.json</code>.</p>"
+            + tabel(hold_rows, ["Hold", "Hold i Holdsport", "Id", "Fundet", "Fundet ved"], "")
+            + (f"<p class='tnote'>Alle hold på din Holdsport-bruger: {alle}</p>" if alle else ""))
+
     fejl = status.get("feed_fejl") or {}
     fejl_html = ""
     if fejl:
@@ -138,6 +187,7 @@ def render(status, base_url=""):
 <div class="stat"><b>{len(status['feeds'])}</b><span>feeds til Holdsport</span></div>
 <div class="stat"><b>{len(flyt)}</b><span>flyttede kampe</span></div>
 <div class="stat"><b>{len(huller)}</b><span>kampe uden tjans</span></div>
+<div class="stat"><b>{len(slettet) if hs.get("aktiveret") else "–"}</b><span>slettet i Holdsport</span></div>
 </div>
 
 <h2>Hjemmekampe uden hold på tjans</h2>
@@ -151,6 +201,8 @@ def render(status, base_url=""):
 <h2>Kampe der er flyttet siden tjanselisten blev lavet</h2>
 {tabel(fl_rows, ["Kampnr.", "Stod til", "Er nu", "Tjans", "Kamp"],
        "Ingen kampe er flyttet. Tjanserne følger med automatisk, hvis det sker.")}
+
+{holdsport_afsnit}
 
 <h2>Feeds til Holdsport</h2>
 <p class="sub">Importér ét feed pr. hold under Kalender → Mere → Importer kampprogram →
