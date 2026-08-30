@@ -1,0 +1,62 @@
+
+name: Opdater tjans-kalendere
+ 
+on:
+  schedule:
+    - cron: "20 3 * * *"        # hver nat kl. 04:20/05:20 dansk tid
+  workflow_dispatch:            # kan altid startes manuelt
+  push:
+    branches: [main]
+ 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  issues: write
+ 
+concurrency:
+  group: tjanser
+  cancel-in-progress: false
+ 
+jobs:
+  byg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+ 
+      - name: Byg kalendere og statusside
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url || '' }}
+          SHEET_CSV_URL: ${{ vars.SHEET_CSV_URL }}
+        run: python scripts/build.py
+ 
+      - uses: actions/configure-pages@v5
+        id: pages
+ 
+      - name: Byg igen med den rigtige adresse
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url }}/
+          SHEET_CSV_URL: ${{ vars.SHEET_CSV_URL }}
+        run: python scripts/build.py
+ 
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+ 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: status
+          path: docs/status.json
+ 
+      - id: deploy
+        uses: actions/deploy-pages@v4
+ 
+      - name: Giv besked hvis der er huller i tjansedækningen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SIDE: ${{ steps.deploy.outputs.page_url }}
+        run: python scripts/alert.py
