@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aalborg Volley//Tjanser//DA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tjanser H2 (6 personer)
+X-WR-TIMEZONE:Europe/Copenhagen
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:tjans-149219-H2@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261129T111500Z
+DTEND:20261129T133000Z
+SUMMARY:Tjans: D1 mod Hvidovre VK
+DESCRIPTION:Der skal stilles 6 personer til rådighed: 2 boldlangere\, 2 s
+ ekretærer\, 1 til entré og 1 til speaker.\n\nKampstart kl. 13:00 – m
+ ød 45 minutter før.\nVolleyligaen Kvinder: Aalborg Volleyball - Hvidovr
+ e VK\nSted: Aalborg Stadionhal 1\nKampnr. 149219
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:53600
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

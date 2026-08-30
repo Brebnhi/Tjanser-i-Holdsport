@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+"""Åbner, opdaterer eller lukker ét GitHub-issue afhængigt af, om der er huller
+i tjansedækningen. GitHub sender selv mail, når issuet oprettes eller ændres,
+så der kommer kun besked, når noget faktisk mangler."""
+import json, os, subprocess, sys
+
+TITEL = "Tjanser: hjemmekampe uden hold"
+LABEL = "tjans"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def gh(*args, **kw):
+    return subprocess.run(["gh", *args], capture_output=True, text=True, **kw)
+
+
+def main():
+    st = json.load(open(os.path.join(ROOT, "docs", "status.json"), encoding="utf-8"))
+    huller, forsvundne = st["huller"], st["forsvundne"]
+    side = os.environ.get("SIDE", "")
+
+    gh("label", "create", LABEL, "--color", "B60205",
+       "--description", "Huller i tjansedækningen")
+
+    fundet = gh("issue", "list", "--state", "open", "--label", LABEL,
+                "--json", "number,body", "--limit", "1")
+    aabne = json.loads(fundet.stdout or "[]")
+
+    if not huller and not forsvundne:
+        if aabne:
+            nr = str(aabne[0]["number"])
+            gh("issue", "comment", nr, "--body",
+               "Alle hjemmekampe har igen et hold på tjans. Lukker automatisk.")
+            gh("issue", "close", nr)
+            print("Ingen huller – issue lukket")
+        else:
+            print("Ingen huller")
+        return
+
+    linjer = [f"Tjekket {st['opdateret']} mod {st['feed_kampe']} kampe i kampprogrammet.", ""]
+    if huller:
+        linjer += [f"## {len(huller)} hjemmekamp(e) uden hold på tjans", "",
+                   "| Kampnr. | Dato | Kamp | Række | Sted |", "|---|---|---|---|---|"]
+        linjer += [f"| {h['kampnr']} | {h['start']} | {h['kamp']} | {h['raekke']} | {h['sted']} |"
+                   for h in huller]
+        linjer.append("")
+    if forsvundne:
+        linjer += [f"## {len(forsvundne)} tjans(er) hvor kampen ikke længere findes", "",
+                   "| Kampnr. | Dato i ark | Kamp | Tjans |", "|---|---|---|---|"]
+        linjer += [f"| {f['kampnr']} | {f['dato']} | {f['kamp']} | {f['tjans']} |"
+                   for f in forsvundne]
+        linjer.append("")
+    linjer.append("Ret tjanselisten, så lukker issuet sig selv ved næste kørsel.")
+    if side:
+        linjer.append(f"\nHele overblikket: {side}")
+    krop = "\n".join(linjer)
+
+    if aabne:
+        nr = str(aabne[0]["number"])
+        if (aabne[0].get("body") or "").split("Tjekket")[-1] != krop.split("Tjekket")[-1]:
+            gh("issue", "edit", nr, "--body", krop)
+            gh("issue", "comment", nr, "--body", "Status ændret — se opdateret oversigt ovenfor.")
+            print(f"Issue #{nr} opdateret")
+        else:
+            print(f"Issue #{nr} uændret")
+    else:
+        r = gh("issue", "create", "--title", TITEL, "--label", LABEL, "--body", krop)
+        print("Issue oprettet:", r.stdout.strip() or r.stderr.strip())
+
+
+if __name__ == "__main__":
+    sys.exit(main())

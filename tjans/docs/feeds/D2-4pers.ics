@@ -1,0 +1,85 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aalborg Volley//Tjanser//DA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tjanser D2 (4 personer)
+X-WR-TIMEZONE:Europe/Copenhagen
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:tjans-148637-D2@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261010T093000Z
+DTEND:20261010T113000Z
+SUMMARY:Tjans: H2 mod Silkeborg KFUM
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 12:00 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.2 - Silkeborg K
+ FUM\nSted: Aalborg Stadionhal 1\nKampnr. 148637
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:26400
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148670-D2@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261211T190000Z
+DTEND:20261211T210000Z
+SUMMARY:Tjans: H3 mod SKF KFUM
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 20:30 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.3 - SKF KFUM\nS
+ ted: Aalborg Katedralskole\nKampnr. 148670
+LOCATION:Aalborg Katedralskole
+SEQUENCE:17400
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148689-D2@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270213T130000Z
+DTEND:20270213T150000Z
+SUMMARY:Tjans: H2 mod IF Lyseng 2
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 14:30 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.2 - IF Lyseng 2
+ \nSted: Aalborg Stadionhal 1\nKampnr. 148689
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:25400
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148884-D2@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270321T093000Z
+DTEND:20270321T113000Z
+SUMMARY:Tjans: D3 mod Aabyhøj IF
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 11:00 – mød 
+ 30 minutter før.\n2. Division Kvinder: Aalborg Volleyball.3 - Aabyhøj I
+ F\nSted: Aalborg Stadionhal 2\nKampnr. 148884
+LOCATION:Aalborg Stadionhal 2
+SEQUENCE:23200
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148898-D2@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270424T073000Z
+DTEND:20270424T093000Z
+SUMMARY:Tjans: D3 mod Skovbakken
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 10:00 – mød 
+ 30 minutter før.\n2. Division Kvinder: Aalborg Volleyball.3 - Skovbakken
+ \nSted: Aalborg Stadionhal 1\nKampnr. 148898
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:53600
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

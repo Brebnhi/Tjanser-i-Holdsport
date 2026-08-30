@@ -1,0 +1,130 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aalborg Volley//Tjanser//DA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tjanser H1 (4 personer)
+X-WR-TIMEZONE:Europe/Copenhagen
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:tjans-148818-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261010T160000Z
+DTEND:20261010T180000Z
+SUMMARY:Tjans: D3 mod VK Raptus.2
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 18:30 – mød 
+ 30 minutter før.\n2. Division Kvinder: Aalborg Volleyball.3 - VK Raptus.
+ 2\nSted: Aalborg Stadionhal 1\nKampnr. 148818
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:49800
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148647-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261030T193000Z
+DTEND:20261030T213000Z
+SUMMARY:Tjans: H3 mod Skive FVK
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 21:00 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.3 - Skive FVK\n
+ Sted: Aalborg Stadionhal 1\nKampnr. 148647
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:90400
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148653-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261107T103000Z
+DTEND:20261107T123000Z
+SUMMARY:Tjans: H3 mod Aalborg Volleyball.2
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 12:00 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.3 - Aalborg Vol
+ leyball.2\nSted: Aalborg Stadionhal 2\nKampnr. 148653
+LOCATION:Aalborg Stadionhal 2
+SEQUENCE:49200
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148850-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261211T170000Z
+DTEND:20261211T190000Z
+SUMMARY:Tjans: D3 mod Hjerm FIF
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 18:30 – mød 
+ 30 minutter før.\n2. Division Kvinder: Aalborg Volleyball.3 - Hjerm FIF\
+ nSted: Aalborg Katedralskole\nKampnr. 148850
+LOCATION:Aalborg Katedralskole
+SEQUENCE:10200
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148858-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270116T093000Z
+DTEND:20270116T113000Z
+SUMMARY:Tjans: D3 mod Randers VK
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 11:00 – mød 
+ 30 minutter før.\n2. Division Kvinder: Aalborg Volleyball.3 - Randers VK
+ \nSted: Aalborg Stadionhal 2\nKampnr. 148858
+LOCATION:Aalborg Stadionhal 2
+SEQUENCE:93600
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148690-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270213T103000Z
+DTEND:20270213T123000Z
+SUMMARY:Tjans: H3 mod VK Vendsyssel
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 12:00 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.3 - VK Vendsyss
+ el\nSted: Aalborg Stadionhal 1\nKampnr. 148690
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:16400
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148887-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270403T160000Z
+DTEND:20270403T180000Z
+SUMMARY:Tjans: D3 mod ASV Aarhus.3
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 18:30 – mød 
+ 30 minutter før.\n2. Division Kvinder: Aalborg Volleyball.3 - ASV Aarhus
+ .3\nSted: Aalborg Stadionhal 1\nKampnr. 148887
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:69800
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-148719-H1@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270424T093000Z
+DTEND:20270424T113000Z
+SUMMARY:Tjans: H2 mod ASV Aarhus.3
+DESCRIPTION:Der skal stilles 4 personer til rådighed: 2 boldlangere og 2 
+ sekretærer. Ingen entré eller speaker.\n\nKampstart kl. 12:00 – mød 
+ 30 minutter før.\n2. Division Herrer: Aalborg Volleyball.2 - ASV Aarhus.
+ 3\nSted: Aalborg Stadionhal 1\nKampnr. 148719
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:60800
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

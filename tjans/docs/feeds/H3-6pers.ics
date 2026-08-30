@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aalborg Volley//Tjanser//DA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Tjanser H3 (6 personer)
+X-WR-TIMEZONE:Europe/Copenhagen
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:tjans-149194-H3@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20261017T114500Z
+DTEND:20261017T140000Z
+SUMMARY:Tjans: D1 mod DHV Odense
+DESCRIPTION:Der skal stilles 6 personer til rådighed: 2 boldlangere\, 2 s
+ ekretærer\, 1 til entré og 1 til speaker.\n\nKampstart kl. 14:30 – m
+ ød 45 minutter før.\nVolleyligaen Kvinder: Aalborg Volleyball - DHV Ode
+ nse\nSted: Aalborg Stadionhal 1\nKampnr. 149194
+LOCATION:Aalborg Stadionhal 1
+SEQUENCE:40200
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:tjans-149258-H3@aalborgvolley.dk
+DTSTAMP:20260830T121804Z
+DTSTART:20270313T134500Z
+DTEND:20270313T160000Z
+SUMMARY:Tjans: D1 mod Gentofte Volley
+DESCRIPTION:Der skal stilles 6 personer til rådighed: 2 boldlangere\, 2 s
+ ekretærer\, 1 til entré og 1 til speaker.\n\nKampstart kl. 15:30 – m
+ ød 45 minutter før.\nVolleyligaen Kvinder: Aalborg Volleyball - Gentoft
+ e Volley\nSted: Aalborg Stadionhal 2\nKampnr. 149258
+LOCATION:Aalborg Stadionhal 2
+SEQUENCE:48200
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
